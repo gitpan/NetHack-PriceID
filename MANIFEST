@@ -1,0 +1,24 @@
+Changes
+inc/Module/AutoInstall.pm
+inc/Module/Install.pm
+inc/Module/Install/AutoInstall.pm
+inc/Module/Install/Base.pm
+inc/Module/Install/Can.pm
+inc/Module/Install/Fetch.pm
+inc/Module/Install/Include.pm
+inc/Module/Install/Makefile.pm
+inc/Module/Install/Metadata.pm
+inc/Module/Install/Win32.pm
+inc/Module/Install/WriteAll.pm
+lib/NetHack/PriceID.pm
+Makefile.PL
+MANIFEST			This list of files
+META.yml
+README
+t/000-load.t
+t/001-api.t
+t/002-buy.t
+t/003-sell.t
+t/004-quan.t
+t/005-error.t
+t/006-mods.t
