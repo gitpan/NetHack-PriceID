@@ -1,5 +1,5 @@
 --- 
-abstract: identify items using shopkeepers
+abstract: identify NetHack items using shopkeepers
 author: Shawn M Moore, C<< <sartak at gmail.com> >>
 build_requires: 
   Test::More: 0
@@ -17,4 +17,5 @@ no_index:
 requires: 
   Exporter: 0
   parent: 0
-version: 0.01
+  perl: 5.6.0
+version: 0.02

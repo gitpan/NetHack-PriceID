@@ -3,6 +3,7 @@ package NetHack::PriceID;
 use strict;
 use warnings;
 use integer;
+use 5.6.0;
 
 use parent 'Exporter';
 our @EXPORT_OK = qw(priceid priceid_buy priceid_sell priceid_base);
@@ -106,6 +107,12 @@ our %item_table =
     },
 );
 
+sub _croak
+{
+    require Carp;
+    Carp::croak @_;
+}
+
 sub priceid
 {
     my %args = _canonicalize_args(@_);
@@ -132,7 +139,7 @@ sub priceid_buy
     my %args = _canonicalize_args(@_);
     my @base;
 
-    Carp::croak "Calculating 'buy' prices requires that you set 'charisma'."
+    _croak "Calculating 'buy' prices requires that you set 'charisma'."
         if !defined $args{charisma};
 
     for my $base (keys %{ $item_table{ $args{type} } })
@@ -215,15 +222,15 @@ sub _canonicalize_args
         @_,
     );
 
-    Carp::croak "Price IDing requires that you set 'amount'"
+    _croak "Price IDing requires that you set 'amount'"
         if !defined $args{amount};
 
-    Carp::croak "Price IDing requires that you set 'type'"
+    _croak "Price IDing requires that you set 'type'"
         if !defined $args{type};
 
     $args{type} = $glyph2type{ $args{type} } || $args{type};
 
-    Carp::croak "Unknown item type: $args{type}"
+    _croak "Unknown item type: $args{type}"
         if !exists $item_table{ $args{type} };
 
     return %args;
@@ -233,21 +240,24 @@ sub _canonicalize_output
 {
     my $args = shift;
 
+    return map { [$_, @{ $item_table{ $args->{type} }{ $_ } || [] }] } sort @_
+        if $args->{out} eq 'both';
+
     return sort @_ if $args->{out} eq 'base';
     return sort map {@{ $item_table{ $args->{type} }{ $_ } || [] }} @_;
 }
 
 =head1 NAME
 
-NetHack::PriceID - identify items using shopkeepers
+NetHack::PriceID - identify NetHack items using shopkeepers
 
 =head1 VERSION
 
-Version 0.01 released 23 Sep 07
+Version 0.02 released 23 Sep 07
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -269,6 +279,8 @@ an item.
 The calculations for price IDing aren't that difficult, but making sure to get
 all the edge cases (such as trying to identify items while the shopkeeper is
 attacking you -- and charging you more money) can be twiddly.
+
+This module also comes with a C<priceid> script.
 
 =head1 FUNCTIONS
 
@@ -308,12 +320,14 @@ The charisma of the character. Base and sell prices are independent of
 charisma, so it's required only for buying. This will croak if you try to
 buy price-ID without setting the charisma.
 
-=item out => base|names (default: names)
+=item out => base|names|both (default: names)
 
 The output format. C<base> will return 0, 1, or 2 possible base prices that the
 input can possibly be. Buying and selling always map to two prices, but usually
 one of those prices has no items, so it is not given. C<names> will return the
-actual names of the possible items.
+actual names of the possible items. C<both> will return a list of array
+references with the first element of each being the base price, and following
+elements being the item names.
 
 =item tourist => BOOL (default: false)
 
@@ -463,11 +477,6 @@ screen (so that charisma could be discerned).
 
 You could pass in a list of items that you've already identified or ruled out,
 and the module would not include those in the list of possibilities.
-
-=item Ship a price-ID script
-
-It's not difficult to write a script to wrap these functions. One will be
-provided in 0.02.
 
 =back
 
