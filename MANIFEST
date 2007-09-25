@@ -24,3 +24,5 @@ t/003-sell.t
 t/004-quan.t
 t/005-error.t
 t/006-mods.t
+t/007-tools.t
+t/008-armor.t

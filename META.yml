@@ -16,6 +16,6 @@ no_index:
     - t
 requires: 
   Exporter: 0
+  Getopt::Euclid: 0
   parent: 0
-  perl: 5.6.0
-version: 0.02
+version: 0.03

@@ -3,7 +3,6 @@ package NetHack::PriceID;
 use strict;
 use warnings;
 use integer;
-use 5.6.0;
 
 use parent 'Exporter';
 our @EXPORT_OK = qw(priceid priceid_buy priceid_sell priceid_base);
@@ -17,6 +16,8 @@ our %glyph2type =
     '=' => 'ring',
     '!' => 'potion',
     '/' => 'wand',
+    '(' => 'tool',
+    '[' => 'armor',
 );
 
 our %item_table =
@@ -105,7 +106,110 @@ our %item_table =
                 'teleportation'],
         500 => ['death', 'wishing'],
     },
+
+    bag =>
+    {
+        2   => ['sack'],
+        100 => ['bag of holding', 'oilskin sack', 'bag of tricks'],
+    },
+
+    lamp =>
+    {
+        10 => ['oil lamp'],
+        50 => ['magic lamp'],
+    },
+
+    flute =>
+    {
+        12 => ['wooden flute'],
+        36 => ['magic flute'],
+    },
+
+    horn =>
+    {
+        15 => ['tooled horn'],
+        50 => ['fire horn', 'frost horn', 'horn of plenty'],
+    },
+
+#    shirt =>
+#    {
+#        2 => ['T-shirt'],
+#        3 => ['Hawaiian shirt'],
+#    },
+
+#    suit =>
+#    {
+#    },
+
+    cloak =>
+    {
+        50 => ['cloak of displacement', 'cloak of protection', 'oilskin cloak'],
+        60 => ['cloak of invisibility', 'cloak of magic resistance',
+               'elven cloak'],
+    },
+
+    helmet =>
+    {
+         1 => ['dunce cap'],
+        50 => ['helm of brilliance', 'helm of opposite alignment',
+               'helm of telepathy'],
+        80 => ['cornuthaum'],
+    },
+
+    gloves =>
+    {
+         8 => ['leather gloves'],
+        50 => ['gauntlets of dexterity', 'gauntlets of fumbling',
+               'gauntlets of power'],
+    },
+
+#    shield =>
+#    {
+#        1 => [],
+#    },
+
+    boots =>
+    {
+         8 => ['elven boots', 'kicking boots'],
+        30 => ['fumble boots', 'levitation boots'],
+        50 => ['jumping boots', 'speed boots', 'water walking boots'],
+    },
 );
+
+# dynamically construct a list of all tools from each tool subtype
+for my $in (qw/bag lamp flute horn/)
+{
+    while (my ($price, $items) = each %{ $item_table{$in} })
+    {
+        @{$item_table{tool}{$price}} = sort @{$item_table{tool}{$price} || []},
+                                            @$items;
+    }
+}
+
+# dynamically construct a list of all armor from each armor subtype
+for my $in (qw/shirt suit cloak helmet gloves shield boots/)
+{
+    # automatically calculate +1 .. +6
+    my @prices = reverse sort keys %{ $item_table{$in} };
+    for my $price (@prices)
+    {
+        for my $enchantment (1 .. 6)
+        {
+            my $newprice = $price + 10 * $enchantment;
+
+            for my $item (@{ $item_table{$in}{$price} })
+            {
+                push @{ $item_table{$in}{$newprice} }, "+$enchantment $item";
+            }
+        }
+    }
+
+    while (my ($price, $items) = each %{ $item_table{$in} })
+    {
+        @{$item_table{armor}{$price}} = sort @{$item_table{armor}{$price}||[]},
+                                             @$items;
+    }
+}
 
 sub _croak
 {
@@ -253,11 +357,11 @@ NetHack::PriceID - identify NetHack items using shopkeepers
 
 =head1 VERSION
 
-Version 0.02 released 23 Sep 07
+Version 0.03 released 24 Sep 07
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -439,15 +543,6 @@ shopkeeper, and turns to stone... oops, no gloves!
 =head1 TODO
 
 =over 4
-
-=item Tools
-
-These will require sub-types, since it's not all that useful to know how a horn
-would price ID when you're looking at bags.
-
-=item Armor, weapons
-
-Armor and weapons have an additional $10/enchantment charge. Also subtypes.
 
 =item User-defined item tables
 

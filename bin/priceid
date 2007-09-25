@@ -33,7 +33,7 @@ priceid - identify NetHack items using shopkeepers
 
 =head1 VERSION
 
-This documentation refers to priceid version 0.02 released 23 Sep 07
+This documentation refers to priceid version 0.03 released 24 Sep 07
 
 =head1 REQUIRED ARGUMENTS
 
@@ -44,7 +44,7 @@ This documentation refers to priceid version 0.02 released 23 Sep 07
 The item type that you're IDing, such as wand or ! (potion).
 
 =for Euclid:
-    type.type: /([\"?+=!\/]|amulet|scroll|spellbook|ring|potion|wand)/
+    type.type: /([\"?+=!\/(\[]|amulet|scroll|spellbook|ring|potion|wand|tool|bag|lamp|flute|horn|armor|shirt|suit|cloak|helmet|gloves|shield|boots)/
 
 =item -a[mount] [:] <amount>
 
