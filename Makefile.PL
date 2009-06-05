@@ -4,12 +4,9 @@ use inc::Module::Install;
 # Define metadata
 name           'NetHack-PriceID';
 all_from       'lib/NetHack/PriceID.pm';
+githubmeta;
 
-requires       'Exporter';
-requires       'parent';
 requires       'Getopt::Euclid';
-
-build_requires 'Test::More';
 
 install_script 'bin/priceid';
 

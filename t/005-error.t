@@ -1,13 +1,10 @@
-#!perl -T
 use strict;
 use warnings;
 use Test::More tests => 12;
 use NetHack::PriceID 'priceid';
 
-eval
-{
-    priceid
-    (
+eval {
+    priceid (
         in       => 'buy',
         amount   => 50,
         type     => '?',
@@ -18,10 +15,8 @@ ok($@);
 like($@, qr/Calculating 'buy' prices requires that you set 'charisma'/);
 like($@, qr/005-error/, "croak reports the correct file");
 
-eval
-{
-    priceid
-    (
+eval {
+    priceid (
         in       => 'buy',
         charisma => 10,
         type     => '?',
@@ -31,10 +26,8 @@ eval
 ok($@);
 like($@, qr/Price IDing requires that you set 'amount'/);
 
-eval
-{
-    priceid
-    (
+eval {
+    priceid (
         in       => 'buy',
         charisma => 10,
         amount   => 50,
@@ -44,10 +37,8 @@ eval
 ok($@);
 like($@, qr/Price IDing requires that you set 'type'/);
 
-eval
-{
-    priceid
-    (
+eval {
+    priceid (
         in       => 'buy',
         charisma => 10,
         amount   => 50,
@@ -58,8 +49,7 @@ eval
 ok($@);
 like($@, qr/Unknown item type: album/);
 
-my @p = priceid
-(
+my @p = priceid (
     in       => 'buy',
     charisma => 10,
     amount   => 910,
@@ -68,8 +58,7 @@ my @p = priceid
 
 is_deeply(\@p, [], "no hits is not an error");
 
-@p = priceid
-(
+@p = priceid (
     in       => 'base',
     charisma => 10,
     amount   => 910,
@@ -78,8 +67,7 @@ is_deeply(\@p, [], "no hits is not an error");
 
 is_deeply(\@p, [], "no hits is not an error");
 
-@p = priceid
-(
+@p = priceid (
     in       => 'sell',
     charisma => 10,
     amount   => 910,

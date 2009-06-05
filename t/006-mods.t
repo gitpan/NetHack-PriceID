@@ -1,11 +1,9 @@
-#!perl -T
 use strict;
 use warnings;
 use Test::More tests => 3;
 use NetHack::PriceID 'priceid';
 
-my @p = priceid
-(
+my @p = priceid (
     charisma => 9,
     in       => 'sell',
     amount   => 20,
@@ -17,8 +15,7 @@ is_deeply(\@p,
     ['blank paper', 'enchant armor', 'enchant weapon', 'remove curse'],
         'Selling a scroll for $20 at 9 charisma, dunce and tourist');
 
-@p = priceid
-(
+@p = priceid (
     charisma => 9,
     in       => 'buy',
     amount   => 141,
@@ -29,8 +26,7 @@ is_deeply(\@p,
 is_deeply(\@p, ['blank paper', 'enchant weapon'],
     'Buying a scroll for $20 at 9 charisma, dunce and tourist');
 
-@p = priceid
-(
+@p = priceid (
     charisma => 9,
     in       => 'buy',
     amount   => 188,
