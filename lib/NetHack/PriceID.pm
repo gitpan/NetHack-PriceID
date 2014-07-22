@@ -1,12 +1,18 @@
 package NetHack::PriceID;
+BEGIN {
+  $NetHack::PriceID::AUTHORITY = 'cpan:SARTAK';
+}
+{
+  $NetHack::PriceID::VERSION = '0.05';
+}
 use strict;
 use warnings;
 use integer;
+# ABSTRACT: identify NetHack items using shopkeepers
 
 use base 'Exporter';
 our @EXPORT_OK = qw(priceid priceid_buy priceid_sell priceid_base);
 our %EXPORT_TAGS = ('all' => \@EXPORT_OK);
-our $VERSION = '0.04';
 
 our %glyph2type = (
     '"' => 'amulet',
@@ -188,7 +194,7 @@ for my $in (qw/shirt suit cloak helmet gloves shield boots/) {
 
 sub _croak {
     require Carp;
-    Carp::croak @_;
+    Carp::croak(@_);
 }
 
 sub priceid {
@@ -313,9 +319,17 @@ sub _canonicalize_output {
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 NetHack::PriceID - identify NetHack items using shopkeepers
+
+=head1 VERSION
+
+version 0.05
 
 =head1 SYNOPSIS
 
@@ -543,7 +557,7 @@ L<http://nethack.roy.org/clippy/clippy.pl>
 
 =item HiSPeed's NetHack Helper
 
-L<http://hsp.katron.org/nh-helper.html>
+L<http://nethack.holics.at/nh-helper-public/nh-helper.html>
 
 =item NetHack Object Identification Spoiler
 
@@ -551,20 +565,19 @@ L<http://www.chiark.greenend.org.uk/~damerell/games/nhid.html>
 
 =item Interhack
 
-L<http://interhack.us/>
+L<http://taeb.github.io/interhack/>
 
 =back
 
 =head1 AUTHOR
 
-Shawn M Moore, C<sartak@gmail.com>
+Shawn M Moore <code@sartak.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2009 Shawn M Moore.
+This software is copyright (c) 2014 by Shawn M Moore.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-

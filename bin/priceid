@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use NetHack::PriceID 'priceid';
 use Getopt::Euclid ':minimal_keys';
+# PODNAME: priceid
+# ABSTRACT: identify NetHack items using shopkeepers
 
 $\ = "\n";
 $| = 1;
@@ -27,13 +29,17 @@ else
 
 __END__
 
+=pod
+
+=encoding UTF-8
+
 =head1 NAME
 
 priceid - identify NetHack items using shopkeepers
 
 =head1 VERSION
 
-This documentation refers to priceid version 0.04 released ???
+version 0.05
 
 =head1 REQUIRED ARGUMENTS
 
@@ -43,15 +49,13 @@ This documentation refers to priceid version 0.04 released ???
 
 The item type that you're IDing, such as wand or ! (potion).
 
-=for Euclid:
-    type.type: /([\"?+=!\/(\[]|amulet|scroll|spellbook|ring|potion|wand|tool|bag|lamp|flute|horn|armor|shirt|suit|cloak|helmet|gloves|shield|boots)/
+=for Euclid: type.type: /([\"?+=!\/(\[]|amulet|scroll|spellbook|ring|potion|wand|tool|bag|lamp|flute|horn|armor|shirt|suit|cloak|helmet|gloves|shield|boots)/
 
 =item -a[mount] [:] <amount>
 
 The cost or price of the item(s).
 
-=for Euclid:
-    amount.type: int > 0
+=for Euclid: amount.type: int > 0
 
 =back
 
@@ -63,8 +67,7 @@ The cost or price of the item(s).
 
 The type of operation (buy, sell, base). Default: base
 
-=for Euclid:
-    in.type: /(b(uy)?|s(ell)?|base)/
+=for Euclid: in.type: /(b(uy)?|s(ell)?|base)/
 
 =item --buy
 
@@ -82,8 +85,7 @@ Shortcut for -i base
 
 Your character's charisma. Required only for buying.
 
-=for Euclid:
-    charisma.type: int > 0
+=for Euclid: charisma.type: int > 0
 
 =item --dunce
 
@@ -101,16 +103,20 @@ The shopkeeper is angry with you (it's very obvious when this is true).
 
 The number of items in the stack that you're buying/selling.
 
-=for Euclid:
-    quan.type: int > 0
+=for Euclid: quan.type: int > 0
     quan.default: 1
 
 =back
 
+=head1 AUTHOR
+
+Shawn M Moore <code@sartak.org>
+
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 Shawn M Moore.
+This software is copyright (c) 2014 by Shawn M Moore.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
+=cut
